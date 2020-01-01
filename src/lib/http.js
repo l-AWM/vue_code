@@ -10,7 +10,7 @@ let instance = axios.create();
 const http = axios.create({
     baseURl: '',
     headers:{
-
+        
     },
     timeout:5000
 })

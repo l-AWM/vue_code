@@ -56,11 +56,23 @@ export default {
       },
       login(){
           //登陆前 预先验证
-          this.$refs.loginFormRef.validate((valid) => {
+          this.$refs.loginFormRef.validate(async valid => {
               if(!valid) return;
               //发起登陆请求
+              // this.$http({
+              //   url:'login',
+              //   method:'post',
+              //   data:this.loginForm
+              // }).then(res => {
+              //   console.log(res);
+              // })
+              let {data:res} = await this.$http.post('login', this.loginForm);
 
-              this.$message.success('登录成功');
+              console.log(res);
+              if(res.meta.status != 200) return this.$message.error(res.meta.msg);
+              this.$message.success(res.meta.msg);
+              window.sessionStorage.setItem('token',res.data.token);
+              this.$router.push('/home');
               //1. 登录成功后的token保存到客户端 sessionStorage
               // 1.1 项目中除了登录之外的其它API接口，必须在登录之后访问
               // 1.2 token只应在当前网站打开期间生效 所以保存在sessionStroage
