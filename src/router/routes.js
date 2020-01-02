@@ -7,6 +7,17 @@ export default  [
     },
     {
         path:'/home',
-        component:() => import('@/views/home/Home.vue')
+        component:() => import('@/views/home/Home.vue'),
+        redirect:'/welcome',
+        children:[
+            {
+                path:'/welcome',
+                component:() => import('@/views/home/WelCome.vue')
+            },
+            {
+                path:'/users',
+                component:() => import('@/views/home/UserList.vue')
+            }
+        ]
     }
 ]
