@@ -16,7 +16,15 @@ export default  [
             },
             {
                 path:'/users',
-                component:() => import('@/views/home/UserList.vue')
+                component:() => import('@/views/user/UserList.vue')
+            },
+            {
+                path:'/rights',
+                component:() => import('@/views/power/rights/index.vue')
+            },
+            {
+                path:'/roles',
+                component:() => import('@/views/power/roles/index.vue')
             }
         ]
     }

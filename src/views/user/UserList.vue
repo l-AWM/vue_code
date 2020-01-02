@@ -35,12 +35,27 @@
         <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" size="small" icon="el-icon-edit" @click="showEditDialog(scope.row)"></el-button>
+            <el-button
+              type="primary"
+              size="small"
+              icon="el-icon-edit"
+              @click="showEditDialog(scope.row)"
+            ></el-button>
             <!-- 删除按钮 -->
-            <el-button type="danger" size="small" icon="el-icon-delete" @click="showDeleteDialog(scope.row)"></el-button>
+            <el-button
+              type="danger"
+              size="small"
+              icon="el-icon-delete"
+              @click="showDeleteDialog(scope.row)"
+            ></el-button>
             <!-- 分配角色按钮 -->
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" size="small" icon="el-icon-setting" @click="showEditRoleDialog(scope.row)"></el-button>
+              <el-button
+                type="warning"
+                size="small"
+                icon="el-icon-setting"
+                @click="showEditRoleDialog(scope.row)"
+              ></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -83,18 +98,18 @@
     <!-- 修改对话框  修改用户-->
     <el-dialog title="修改用户" :visible.sync="editFormVisible">
       <!-- 表单区域 -->
-      <el-form :model='editForm' :rules='editFormRules' ref='editFormRef' label-width="80px">
-        <el-form-item label="用户姓名" >
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="80px">
+        <el-form-item label="用户姓名">
           <el-input disabled v-model="editForm.username"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop='email'>
+        <el-form-item label="邮箱" prop="email">
           <el-input v-model="editForm.email"></el-input>
         </el-form-item>
-        <el-form-item label="手机" prop='mobile'>
+        <el-form-item label="手机" prop="mobile">
           <el-input v-model="editForm.mobile"></el-input>
         </el-form-item>
       </el-form>
-       <!-- 底部区域 -->
+      <!-- 底部区域 -->
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleEditCancel">取 消</el-button>
         <el-button type="primary" @click="handleEditUser">确 定</el-button>
@@ -102,8 +117,23 @@
     </el-dialog>
 
     <!-- 角色管理 对话框 -->
-    <el-dialog title="角色管理" :visible.sync="rolesFormVisible">
-       <!-- 底部区域 -->
+    <el-dialog title="角色管理" :visible.sync="rolesFormVisible" @close="handleRolesCancel">
+      <div>
+        <p>当前用户: {{editForm.username}}</p>
+        <p>当前的角色: {{editForm.role_name}}</p>
+        <p>
+          分配角色:
+          <el-select v-model="selectedRoleId" placeholder="请选择">
+            <el-option
+              v-for="item in rolesList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </p>
+      </div>
+      <!-- 底部区域 -->
       <div slot="footer" class="dialog-footer">
         <el-button @click="handleRolesCancel">取 消</el-button>
         <el-button type="primary" @click="handleEditRole">确 定</el-button>
@@ -113,20 +143,20 @@
 </template>
 
 <script>
-import {deepClone} from '@/lib/deepClone.js';
+import { deepClone } from "@/lib/deepClone.js";
 export default {
   data() {
     //验证邮箱
-    var  checkEmail = (rule, value, callback) => {
+    var checkEmail = (rule, value, callback) => {
       const reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-])+/;
-      if(reg.test(value))return callback();
+      if (reg.test(value)) return callback();
       callback(new Error("请输入正确的邮箱"));
     };
     var checkMobile = (rule, value, callback) => {
       let reg = /^1[^0][\d]{9}/;
-      if(reg.test(value))return callback();
+      if (reg.test(value)) return callback();
       callback(new Error("请输入正确的手机号"));
-    }
+    };
     return {
       //获取用户列表的参数
       queryInfo: {
@@ -140,20 +170,21 @@ export default {
       dialogFormVisible: false,
       editFormVisible: false,
       rolesFormVisible: false,
-      editForm: {
-      },
-      editFormRules:{
-        email:[
-           { validator: checkEmail, trigger: "blur" },
-            { required: true, message: "请输入邮箱", trigger: "blur" },
+      rolesList: [], //所有角色列表
+      selectedRoleId:'',//分配角色选择的值
+      editForm: {},
+      editFormRules: {
+        email: [
+          { validator: checkEmail, trigger: "blur" },
+          { required: true, message: "请输入邮箱", trigger: "blur" }
         ],
-        mobile:[
-          {validator: checkMobile,trigger: "blur"},
+        mobile: [
+          { validator: checkMobile, trigger: "blur" },
           {
             required: true,
             message: "请输入 11位 手机号",
             trigger: "blur"
-          },
+          }
         ]
       },
       addForm: {
@@ -161,7 +192,7 @@ export default {
         username: "",
         password: "",
         email: "",
-        mobile: ''
+        mobile: ""
       },
       addFormRules: {
         //表单验证规则
@@ -175,16 +206,16 @@ export default {
         ],
         email: [
           { validator: checkEmail, trigger: "blur" },
-          { required: true, message: "请输入邮箱", trigger: "blur" },
+          { required: true, message: "请输入邮箱", trigger: "blur" }
         ],
         mobile: [
-          {validator: checkMobile,trigger: "blur"},
+          { validator: checkMobile, trigger: "blur" },
           {
             required: true,
             message: "请输入手机号",
             trigger: "blur"
           },
-          { min: 11, max: 11, message: "长度在 11 个字符", trigger: "blur" },
+          { min: 11, max: 11, message: "长度在 11 个字符", trigger: "blur" }
         ]
       }
     };
@@ -194,7 +225,7 @@ export default {
   },
   methods: {
     //修改按钮
-    showEditDialog(info){
+    showEditDialog(info) {
       //console.log(info);
       this.editFormVisible = true;
       //引用传递 克隆
@@ -202,67 +233,88 @@ export default {
       //console.log(this.editForm);
       //修改完成后 重新获取数据
     },
-    handleEditUser(id){
+    handleEditUser(id) {
       //表单验证 发送请求
       this.$refs.editFormRef.validate(async valid => {
-        if(valid){
-          const {data: res} = await this.$http.put(`users/${this.editForm.id}`,{
-            id:this.editForm.id,
-            email:this.editForm.email,
-            mobile:this.editForm.mobile
-          })
+        if (valid) {
+          const { data: res } = await this.$http.put(
+            `users/${this.editForm.id}`,
+            {
+              id: this.editForm.id,
+              email: this.editForm.email,
+              mobile: this.editForm.mobile
+            }
+          );
           //请求成功
-           if(res.meta.status !== 200) return this.$message.error(res.meta.msg);
-           this.$message.success(res.meta.msg);
-           //更新表格中的数据
+          if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
+          this.$message.success(res.meta.msg);
+          //更新表格中的数据
           this.getUserList();
         }
-      })
+      });
       //关闭dialog
       this.editFormVisible = false;
     },
-    handleEditCancel(){
+    handleEditCancel() {
       this.editFormVisible = false;
       //表单重置
       this.$refs.editFormRef.resetFields();
     },
     //删除按钮
-    showDeleteDialog(info){
+    showDeleteDialog(info) {
       //弹出警告框
-      this.$confirm(`此操作将永久删除 ${info.username} , 是否继续?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(async () => {
+      this.$confirm(`此操作将永久删除 ${info.username} , 是否继续?`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
           //确定删除
-         const {data: res} = await this.$http.delete(`users/${info.id}`);
-         if(res.meta.status !== 200) return this.$message.error(res.meta.msg);
-         //更新列表
+          const { data: res } = await this.$http.delete(`users/${info.id}`);
+          if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
+          //更新列表
           this.getUserList();
           //提示成功
           this.$message({
-            type: 'success',
+            type: "success",
             message: res.meta.msg
           });
-          
-        }).catch(() => {
+        })
+        .catch(() => {
           //取消删除
           this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+            type: "info",
+            message: "已取消删除"
+          });
         });
     },
 
     //分配角色
-    showEditRoleDialog(info){
+    async showEditRoleDialog(info) {
+      this.editForm = info;
+      //获取所有的角色列表
+      const { data: res } = await this.$http.get("roles");
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
+      this.rolesList = res.data;
       this.rolesFormVisible = true;
     },
-    handleEditRole(){
+    async handleEditRole() {
+      if(!this.selectedRoleId) return this.$message.error('请选择分配的角色');
+      //服务端更新数据
+      const {data: res} = await this.$http.put(`users/${this.editForm.id}/role`,{
+        rid: this.selectedRoleId
+      });
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
+
+      this.$message.success(res.meta.msg)
+      //刷新列表
+      this.getUserList();
+      //关闭对话弹框
       this.rolesFormVisible = false;
     },
-    handleRolesCancel(){
-       this.rolesFormVisible = false;
+    handleRolesCancel() {
+      this.selectedRoleId = ''
+      this.rolesFormVisible = false;
     },
     //获取用户列表
     async getUserList() {
@@ -350,13 +402,13 @@ export default {
     handleAddUser() {
       //表单 登录前校验
       this.$refs.addFormRef.validate(async valid => {
-        console.log(valid)
+        console.log(valid);
         if (valid) {
           //服务器请求更新数据
           const { data: res } = await this.$http.post("users", this.addForm);
-         
+
           if (res.meta.status !== 201) return this.$message.error(res.meta.msg);
-           this.$message.success(res.meta.msg)
+          this.$message.success(res.meta.msg);
           this.dialogFormVisible = false;
         } else {
           //提示用户确定关闭
@@ -374,7 +426,7 @@ export default {
       //this.dialogFormVisible = false;
     },
     //取消按钮 表单重置
-    handleCancel(){
+    handleCancel() {
       this.dialogFormVisible = false;
       this.$refs.addFormRef.resetFields();
     }

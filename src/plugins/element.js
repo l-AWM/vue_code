@@ -28,6 +28,21 @@ import {Pagination } from 'element-ui'
 
 import {Dialog} from 'element-ui'
 
+import {Alert,Tag} from 'element-ui'
+
+import {Tree} from 'element-ui'
+
+import {Select, Option} from 'element-ui'
+Vue.use(Option)
+
+Vue.use(Select)
+
+Vue.use(Tree)
+
+Vue.use(Alert)
+
+Vue.use(Tag)
+
 Vue.use(Dialog)
 
 Vue.use(Pagination)
