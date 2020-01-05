@@ -33,6 +33,11 @@ import {Alert,Tag} from 'element-ui'
 import {Tree} from 'element-ui'
 
 import {Select, Option} from 'element-ui'
+
+import {Cascader} from 'element-ui'
+
+Vue.use(Cascader)
+
 Vue.use(Option)
 
 Vue.use(Select)

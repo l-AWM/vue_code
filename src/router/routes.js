@@ -25,6 +25,9 @@ export default  [
             {
                 path:'/roles',
                 component:() => import('@/views/power/roles/index.vue')
+            },{
+                path:'/categories',
+                component:() => import('@/views/categories/Categories.vue')
             }
         ]
     }
