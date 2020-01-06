@@ -36,6 +36,14 @@ import {Select, Option} from 'element-ui'
 
 import {Cascader} from 'element-ui'
 
+import{Tabs} from 'element-ui'
+
+import {TabPane} from 'element-ui'
+
+Vue.use(TabPane)
+
+Vue.use(Tabs)
+
 Vue.use(Cascader)
 
 Vue.use(Option)

@@ -28,6 +28,10 @@ export default  [
             },{
                 path:'/categories',
                 component:() => import('@/views/categories/Categories.vue')
+            },
+            {
+                path:'/params',
+                component:() => import('@/views/params/Params.vue')
             }
         ]
     }
