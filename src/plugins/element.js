@@ -46,6 +46,12 @@ import {CheckboxGroup,Checkbox} from 'element-ui'
 
 import {Upload} from 'element-ui'
 
+import {Timeline,TimelineItem} from 'element-ui'
+
+Vue.use(Timeline)
+
+Vue.use(TimelineItem)
+
 Vue.use(Upload)
 
 Vue.use(Checkbox)

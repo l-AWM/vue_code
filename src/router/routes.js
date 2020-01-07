@@ -40,6 +40,10 @@ export default  [
             {
                 path:'/goods/add',
                 component:() => import('@/views/goods/AddGoods.vue')
+            },
+            {
+                path:'/orders',
+                component:() => import('@/views/order/Order.vue')
             }
         ]
     }

@@ -12,7 +12,7 @@
           <!-- 侧边栏 -->
         <el-aside :width="!collapse?'200px':'64px'" class="home-aside" :style="{transition: !collapse?'all 1s':'none'}" >
             <div class="toggle-btn" @click="toggleHandle">|||</div>
-            <Menu :menuList='menuList' :toggle='collapse' :active='this.$route.path.substr(1)'></Menu>
+            <Menu :menuList='menuList' :toggle='collapse' :active='this.$route.path'></Menu>
         </el-aside>
         <!-- 主体 -->
         <el-main>Main
