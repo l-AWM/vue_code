@@ -40,6 +40,22 @@ import{Tabs} from 'element-ui'
 
 import {TabPane} from 'element-ui'
 
+import {Steps,Step } from 'element-ui'
+
+import {CheckboxGroup,Checkbox} from 'element-ui'
+
+import {Upload} from 'element-ui'
+
+Vue.use(Upload)
+
+Vue.use(Checkbox)
+
+Vue.use(CheckboxGroup)
+
+Vue.use(Step)
+
+Vue.use(Steps)
+
 Vue.use(TabPane)
 
 Vue.use(Tabs)

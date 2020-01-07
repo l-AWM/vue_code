@@ -11,13 +11,13 @@
     router
     :defaultActive="active"
   >
-    <el-submenu :index="item.path" v-for="(item,i) in menuList" :key="i">
+    <el-submenu :index="'/'+item.path" v-for="(item,i) in menuList" :key="i">
       <template slot="title">
         <i :class="'iconfont '+icons[i]"></i>
         <span>{{item.authName}}</span>
       </template>
 
-      <el-menu-item :index="li.path" v-for="li in item.children" :key="li.id">
+      <el-menu-item :index="'/' + li.path" v-for="li in item.children" :key="li.id">
         <i class="el-icon-menu"></i>
         <span slot="title">{{li.authName}}</span>
       </el-menu-item>

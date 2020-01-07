@@ -32,6 +32,14 @@ export default  [
             {
                 path:'/params',
                 component:() => import('@/views/params/Params.vue')
+            },
+            {
+                path:'/goods',
+                component:() => import('@/views/goods/Goods.vue')
+            },
+            {
+                path:'/goods/add',
+                component:() => import('@/views/goods/AddGoods.vue')
             }
         ]
     }
