@@ -15,7 +15,7 @@
             <Menu :menuList='menuList' :toggle='collapse' :active='this.$route.path'></Menu>
         </el-aside>
         <!-- 主体 -->
-        <el-main>Main
+        <el-main>
             <router-view></router-view>
         </el-main>
       </el-container>
